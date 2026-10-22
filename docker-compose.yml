@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: incidentes_postgres
+    environment:
+      POSTGRES_DB: incidentes_db
+      POSTGRES_USER: incidentes_user
+      POSTGRES_PASSWORD: incidentes_pass
+    ports:
+      - "3050:5432"
+    volumes:
+      - incidentes_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U incidentes_user -d incidentes_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  incidentes_data:
